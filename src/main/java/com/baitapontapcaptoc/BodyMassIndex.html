@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Body Mass Index</h1>
+<hr>
+<p>Body mass index (BMI) is a measure of body fat based on height and weight that applies to adult men and women.</p>
+<table border="1">
+    <tr>
+        <th>BMI:</th>
+        <th>Interpretation:</th>
+    </tr>
+    <tr>
+        <td>BMI < 18.5</td>
+        <td>Underweight</td>
+    </tr>
+    <tr>
+        <td>18.5 <= BMI < 25</td>
+        <td>Normal</td>
+    </tr>
+    <tr>
+        <td>25 <= BMI < 30</td>
+        <td>Overweight</td>
+    </tr>
+    <tr>
+        <td>BMI >= 30</td>
+        <td>Obese</td>
+    </tr>
+</table>
+<hr>
+<h2>Start Calculate BMI</h2>
+<table>
+    <tr>
+        <th>Height(m):</th>
+        <td><input type="text" id="height"></td>
+    </tr>
+    <tr>
+        <th>Weight(kg):</th>
+        <td><input type="text" id="weight"></td>
+    </tr>
+    <tr>
+        <th>Result:</th>
+        <td><p id="result"></p></td>
+    </tr>
+    <tr>
+        <th></th>
+        <td><button onclick="calculateBMI()">Calculate BMI</button></td>
+    </tr>
+</table>
+
+<script>
+    function calculateBMI() {
+        let height = document.getElementById("height").value;
+        let weight = document.getElementById("weight").value;
+        let bmi = weight / (height * height);
+        let result = "";
+        if (bmi < 18.5) {
+            result = "You are underweight, please eat more";
+        } else if (bmi >= 18.5 && bmi < 25) {
+            result = "You are normal, keep it up";
+        } else if (bmi >= 25 && bmi < 30) {
+            result = "You are overweight, please exercise more";
+        } else {
+            result = "You are obese, please exercise more and eat healthy";
+        }
+        console.log(bmi);
+        document.getElementById("result").innerHTML = result;
+    }
+</script>
+</body>
+</html>

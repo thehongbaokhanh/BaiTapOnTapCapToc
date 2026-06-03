@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    Check days in one month
+</h1>
+<table>
+    <tr>
+        <th><input type="number" min="1" max="12" value="1" placeholder="Please enter month" id="month"></th>
+        <th><button onclick="checkDaysInOneMonth()">Check</button></th>
+    </tr>
+    <tr>
+        <td colspan="2"><p id="result"></p></td>
+    </tr>
+</table>
+</body>
+<script>
+    function checkDaysInOneMonth() {
+        let month = +document.getElementById("month").value;
+        let result = "";
+        switch (month) {
+            case 2:
+                result = "28 or 29 days";
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                result = "30 days";
+                break;
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                result = "31 days";
+                break;
+            default:
+                result = "Invalid month";
+        }
+        document.getElementById("result").innerHTML = result;
+    }
+</script>
+</html>
