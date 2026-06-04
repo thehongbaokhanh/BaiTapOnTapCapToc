@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p id="result"></p>
+
+</body>
+<script>
+    let result = "";
+    for (let i = 1; i <= 100; i++) {
+        if (i === 99) {
+            result += i + "<br>";
+            alert("Done!");
+            break;
+        }
+        result += i + "<br>";
+    }
+    document.getElementById("result").innerHTML = result;
+</script>
+</html>
