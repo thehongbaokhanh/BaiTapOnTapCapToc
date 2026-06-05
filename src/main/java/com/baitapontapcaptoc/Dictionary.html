@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+    <input id="search-input" type="text" oninput="search()">
+    <select id="search-select" onchange="search()">
+        <option value="english">Tiếng anh</option>
+        <option value="vietnamese">Tiếng việt</option>
+    </select>
+    <div id="result"></div>
+</body>
+<script>
+    let english = ["apple", "orange", "grapes", "pine apple", "banana"];
+    let vietnamese = ["táo", "cam", "nho", "dứa", "chuối"];
+
+    function searchByVietnamese(word) {
+        let index = english.indexOf(word);
+
+        if (index === -1) {
+            document.getElementById("result").innerHTML = "Not found";
+        } else {
+            document.getElementById("result").innerHTML = vietnamese[index];
+        }
+    }
+
+    function searchByEnglish(word) {
+        let index = vietnamese.indexOf(word);
+
+        if (index === -1) {
+            document.getElementById("result").innerHTML = "Not found";
+        } else {
+            document.getElementById("result").innerHTML = english[index];
+        }
+    }
+
+    function search() {
+        let keyword = document.getElementById("search-input").value;
+
+        if (document.getElementById("search-select").value === "english") {
+            searchByVietnamese(keyword);
+        } else {
+            searchByEnglish(keyword);
+        }
+    }
+</script>
+</html>
