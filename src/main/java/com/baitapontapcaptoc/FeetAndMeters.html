@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function feetToMeters(feet) {
+        let result = feet * 0.305;
+        return result;
+    }
+
+    function metersToFeet(meters) {
+        let result = meters * 3.279 ;
+        return result;
+    }
+
+    let feet = +prompt("Enter the number of feet");
+    let meters = +prompt("Enter the number of meters");
+    let result1 = feetToMeters(feet);
+    let result2 = metersToFeet(meters);
+    alert("Feet to meters: " + result1 +  "; Meters to feet: " + result2);
+</script>
+</body>
+</html>
