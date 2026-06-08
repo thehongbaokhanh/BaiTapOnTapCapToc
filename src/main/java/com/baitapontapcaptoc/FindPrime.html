@@ -6,22 +6,23 @@
 </head>
 <body>
 <script>
-    let n = parseInt(prompt("Nhập số nguyên dương n: "));
-    let prime = true;
-    if (n < 2) {
-        prime = false;
-    } else {
+    function isPrime(n) {
+        if (n < 2) {
+            return false;
+        }
         for (let i = 2; i <= Math.sqrt(n); i++) {
             if (n % i === 0) {
-                prime = false;
-                break;
+                return false;
             }
         }
+        return true;
     }
-    if (prime) {
+    let n = parseInt(prompt("Nhập số nguyên dương n: "));
+    let check = isPrime(n);
+    if (check) {
         alert(n + " là số nguyên tố");
     } else {
-        alert(n + " không là số nguyên tố");
+        alert(n + " không phải là số nguyên tố");
     }
 </script>
 </body>
