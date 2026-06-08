@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+<script>
+    function Temperature(celsius) {
+        if (celsius < -273) {
+            this.celsius = -273;
+        } else {
+            this.celsius = celsius;
+        }
+    }
+
+    function FahrenheitConverter(temperature) {
+        this.temperature = temperature;
+
+        this.convert = function () {
+            return this.temperature.celsius * 9 / 5 + 32;
+        }
+    }
+
+    function KelvinConverter(temperature) {
+        this.temperature = temperature;
+
+        this.convert = function () {
+            return this.temperature.celsius + 273.15;
+        }
+    }
+
+    let temperature = new Temperature(25);
+
+    let fahrenheitConverter = new FahrenheitConverter(temperature);
+    let kelvinConverter = new KelvinConverter(temperature);
+
+    console.log("Độ C: " + temperature.celsius);
+    console.log("Độ F: " + fahrenheitConverter.convert());
+    console.log("Độ K: " + kelvinConverter.convert());
+
+    document.write("Độ C: " + temperature.celsius + "<br>");
+    document.write("Độ F: " + fahrenheitConverter.convert() + "<br>");
+    document.write("Độ K: " + kelvinConverter.convert());
+</script>
+</html>
