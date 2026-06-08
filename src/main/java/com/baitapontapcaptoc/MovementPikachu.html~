@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hero Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #game {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background-color: #f0f0f0;
+        }
+
+        img {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game"></div>
+
+<script>
+    function Hero(image, top, left, size, speed) {
+        this.image = image;
+        this.top = top;
+        this.left = left;
+        this.size = size;
+        this.speed = speed;
+    }
+
+    Hero.prototype.getHeroElement = function () {
+        return '<img src="' + this.image +
+            '" width="' + this.size +
+            '" height="' + this.size +
+            '" style="top:' + this.top +
+            'px; left:' + this.left +
+            'px;">';
+    };
+
+    Hero.prototype.moveRight = function () {
+        this.left += this.speed;
+    };
+
+    Hero.prototype.moveLeft = function () {
+        this.left -= this.speed;
+    };
+
+    Hero.prototype.moveUp = function () {
+        this.top -= this.speed;
+    };
+
+    Hero.prototype.moveDown = function () {
+        this.top += this.speed;
+    };
+
+    let hero = new Hero(
+        "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+        100,
+        100,
+        100,
+        20
+    );
+
+    function start() {
+        document.getElementById("game").innerHTML =
+            hero.getHeroElement();
+    }
+
+    function moveSelection(event) {
+        switch (event.keyCode) {
+            case 37: // Left Arrow
+                hero.moveLeft();
+                break;
+
+            case 38: // Up Arrow
+                hero.moveUp();
+                break;
+
+            case 39: // Right Arrow
+                hero.moveRight();
+                break;
+
+            case 40: // Down Arrow
+                hero.moveDown();
+                break;
+        }
+
+        start();
+    }
+
+    window.addEventListener("keydown", moveSelection);
+
+    start();
+</script>
+
+</body>
+</html>
