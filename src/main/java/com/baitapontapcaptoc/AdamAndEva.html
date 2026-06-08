@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Adam và Eva ăn táo</title>
+</head>
+<body>
+<h2>Kết quả mô phỏng Adam và Eva ăn táo</h2>
+<div id="result"></div>
+
+<script>
+    class Apple {
+        #weight;
+
+        constructor() {
+            this.#weight = 10;
+        }
+
+        getWeight() {
+            return this.#weight;
+        }
+
+        decreaseWeight() {
+            if (this.#weight > 0) {
+                this.#weight--;
+            }
+        }
+    }
+
+    class Human {
+        constructor(name, gender, weight) {
+            this.name = name;
+            this.gender = gender;
+            this.weight = weight;
+        }
+
+        speak(message) {
+            return this.name + ": " + message;
+        }
+
+        eat(apple) {
+            if (apple.getWeight() > 0) {
+                apple.decreaseWeight();
+                this.weight++;
+                return true;
+            }
+            return false;
+        }
+
+        checkApple(apple) {
+            return apple.getWeight();
+        }
+
+        getName() {
+            return this.name;
+        }
+
+        getGender() {
+            return this.gender;
+        }
+
+        getWeight() {
+            return this.weight;
+        }
+    }
+
+    let apple = new Apple();
+
+    let adam = new Human("Adam", "Nam", 70);
+    let eva = new Human("Eva", "Nữ", 50);
+
+    let result = document.getElementById("result");
+
+    result.innerHTML += `<p>${adam.speak("Chúng ta cùng ăn táo nhé!")}</p>`;
+
+    let turn = true;
+
+    while (apple.getWeight() > 0) {
+        if (turn) {
+            adam.eat(apple);
+
+            result.innerHTML += `
+                <p>
+                    Adam ăn 1 miếng táo.<br>
+                    Cân nặng Adam: ${adam.getWeight()}<br>
+                    Khối lượng táo còn lại: ${apple.getWeight()}
+                </p>
+            `;
+        } else {
+            eva.eat(apple);
+
+            result.innerHTML += `
+                <p>
+                    Eva ăn 1 miếng táo.<br>
+                    Cân nặng Eva: ${eva.getWeight()}<br>
+                    Khối lượng táo còn lại: ${apple.getWeight()}
+                </p>
+            `;
+        }
+
+        turn = !turn;
+    }
+
+    result.innerHTML += `
+        <hr>
+        <h3>Quả táo đã hết!</h3>
+        <p>Cân nặng cuối cùng của Adam: ${adam.getWeight()}</p>
+        <p>Cân nặng cuối cùng của Eva: ${eva.getWeight()}</p>
+    `;
+
+</script>
+</body>
+</html>
