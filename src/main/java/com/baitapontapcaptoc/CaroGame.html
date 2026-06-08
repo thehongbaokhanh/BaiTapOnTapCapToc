@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Caro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #board {
+            width: 800px;
+            height: 800px;
+            margin: 20px auto;
+            position: relative;
+            border: 2px solid black;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            position: absolute;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 40px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #status {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>GAME CARO 20 x 20</h2>
+<div id="status">Lượt của X</div>
+<div id="board"></div>
+
+<script>
+    const SIZE = 20;
+    const board = [];
+    let currentPlayer = "X";
+    let gameOver = false;
+
+    const boardDiv = document.getElementById("board");
+    const statusDiv = document.getElementById("status");
+
+    // Khởi tạo mảng
+    for (let i = 0; i < SIZE; i++) {
+        board[i] = [];
+        for (let j = 0; j < SIZE; j++) {
+            board[i][j] = "";
+        }
+    }
+
+    // Vẽ bàn cờ
+    for (let row = 0; row < SIZE; row++) {
+        for (let col = 0; col < SIZE; col++) {
+
+            let cell = document.createElement("div");
+
+            cell.className = "cell";
+            cell.style.left = (col * 40) + "px";
+            cell.style.top = (row * 40) + "px";
+
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+
+            cell.addEventListener("click", function () {
+
+                if (gameOver) return;
+
+                let r = parseInt(this.dataset.row);
+                let c = parseInt(this.dataset.col);
+
+                if (board[r][c] !== "") {
+                    return;
+                }
+
+                board[r][c] = currentPlayer;
+                this.innerHTML = currentPlayer;
+
+                if (checkWinner(r, c)) {
+                    statusDiv.innerHTML =
+                        "Người chơi " + currentPlayer + " thắng!";
+                    gameOver = true;
+                    return;
+                }
+
+                currentPlayer =
+                    currentPlayer === "X" ? "O" : "X";
+
+                statusDiv.innerHTML =
+                    "Lượt của " + currentPlayer;
+            });
+
+            boardDiv.appendChild(cell);
+        }
+    }
+
+    function countDirection(row, col, dx, dy, player) {
+
+        let count = 0;
+
+        let r = row + dx;
+        let c = col + dy;
+
+        while (
+            r >= 0 &&
+            r < SIZE &&
+            c >= 0 &&
+            c < SIZE &&
+            board[r][c] === player
+            ) {
+            count++;
+            r += dx;
+            c += dy;
+        }
+
+        return count;
+    }
+
+    function checkWinner(row, col) {
+
+        const player = board[row][col];
+
+        const directions = [
+            [0, 1],   // ngang
+            [1, 0],   // dọc
+            [1, 1],   // chéo chính
+            [1, -1]   // chéo phụ
+        ];
+
+        for (let d of directions) {
+
+            let total = 1;
+
+            total += countDirection(
+                row, col,
+                d[0], d[1],
+                player
+            );
+
+            total += countDirection(
+                row, col,
+                -d[0], -d[1],
+                player
+            );
+
+            if (total >= 5) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+</script>
+
+</body>
+</html>
