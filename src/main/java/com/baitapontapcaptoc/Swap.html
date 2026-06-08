@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function swap(a, b) {
+        let temp = a;
+        a = b;
+        b = temp;
+
+        return [a, b];
+    }
+
+    let result = swap(10, 20);
+
+    document.write(result[0] + "<br>");
+    document.write(result[1]);
+</script>
+</body>
+</html>
