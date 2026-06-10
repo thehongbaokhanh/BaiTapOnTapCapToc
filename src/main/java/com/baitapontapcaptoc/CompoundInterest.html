@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let principal = parseFloat(prompt("Nhập số tiền ban đầu:"));
+    let months = parseInt(prompt("Nhập số tháng gửi:"));
+    let rate = parseFloat(prompt("Nhập lãi suất tháng (%):"));
+
+    rate = rate / 100;
+
+    let total = principal;
+
+    for (let i = 1; i <= months; i++) {
+        total += total * rate;
+    }
+
+    document.write("Số tiền sau " + months + " tháng là: ");
+    document.write(total.toFixed(0) + " VNĐ");
+</script>
+</body>
+</html>
