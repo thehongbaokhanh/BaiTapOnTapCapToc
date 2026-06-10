@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Lái Xe</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+        }
+
+        canvas {
+            border: 2px solid black;
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🚗 Game Lái Xe Đơn Giản</h2>
+<p>Điểm: <span id="score">0</span></p>
+<p>
+    ⬅️➡️⬆️⬇️: Đổi hướng |
+    Ctrl: Tăng tốc
+</p>
+
+<canvas id="gameCanvas" width="600" height="400"></canvas>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const scoreElement = document.getElementById("score");
+
+    let score = 0;
+    let gameOver = false;
+
+    // Xe
+    let car = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        width: 30,
+        height: 20,
+        speed: 2,
+        direction: "up"
+    };
+
+    // Chướng ngại vật
+    let obstacles = [];
+
+    for (let i = 0; i < 8; i++) {
+        obstacles.push({
+            x: Math.random() * (canvas.width - 30),
+            y: Math.random() * (canvas.height - 30),
+            width: 30,
+            height: 30
+        });
+    }
+
+    // Phần thưởng
+    let rewards = [];
+
+    for (let i = 0; i < 10; i++) {
+        rewards.push({
+            x: Math.random() * (canvas.width - 20),
+            y: Math.random() * (canvas.height - 20),
+            size: 15
+        });
+    }
+
+    // Điều khiển
+    document.addEventListener("keydown", function (e) {
+
+        if (gameOver) return;
+
+        switch (e.key) {
+            case "ArrowLeft":
+                car.direction = "left";
+                break;
+
+            case "ArrowRight":
+                car.direction = "right";
+                break;
+
+            case "ArrowUp":
+                car.direction = "up";
+                break;
+
+            case "ArrowDown":
+                car.direction = "down";
+                break;
+
+            case "Control":
+                car.speed = 5;
+                break;
+        }
+    });
+
+    document.addEventListener("keyup", function (e) {
+        if (e.key === "Control") {
+            car.speed = 2;
+        }
+    });
+
+    function moveCar() {
+
+        switch (car.direction) {
+            case "left":
+                car.x -= car.speed;
+                break;
+
+            case "right":
+                car.x += car.speed;
+                break;
+
+            case "up":
+                car.y -= car.speed;
+                break;
+
+            case "down":
+                car.y += car.speed;
+                break;
+        }
+
+        // Không cho xe ra ngoài màn hình
+        if (car.x < 0) car.x = 0;
+        if (car.y < 0) car.y = 0;
+
+        if (car.x > canvas.width - car.width) {
+            car.x = canvas.width - car.width;
+        }
+
+        if (car.y > canvas.height - car.height) {
+            car.y = canvas.height - car.height;
+        }
+    }
+
+    function checkObstacleCollision() {
+
+        for (let obstacle of obstacles) {
+
+            if (
+                car.x < obstacle.x + obstacle.width &&
+                car.x + car.width > obstacle.x &&
+                car.y < obstacle.y + obstacle.height &&
+                car.y + car.height > obstacle.y
+            ) {
+                gameOver = true;
+
+                alert("Game Over!\nĐiểm của bạn: " + score);
+            }
+        }
+    }
+
+    function checkRewardCollision() {
+
+        for (let i = rewards.length - 1; i >= 0; i--) {
+
+            let reward = rewards[i];
+
+            if (
+                car.x < reward.x + reward.size &&
+                car.x + car.width > reward.x &&
+                car.y < reward.y + reward.size &&
+                car.y + car.height > reward.y
+            ) {
+                score++;
+                scoreElement.innerText = score;
+
+                rewards.splice(i, 1);
+
+                rewards.push({
+                    x: Math.random() * (canvas.width - 20),
+                    y: Math.random() * (canvas.height - 20),
+                    size: 15
+                });
+            }
+        }
+    }
+
+    function drawCar() {
+
+        ctx.fillStyle = "blue";
+        ctx.fillRect(
+            car.x,
+            car.y,
+            car.width,
+            car.height
+        );
+
+        // Đầu xe
+        ctx.fillStyle = "white";
+
+        switch (car.direction) {
+
+            case "up":
+                ctx.fillRect(car.x + 10, car.y, 10, 5);
+                break;
+
+            case "down":
+                ctx.fillRect(car.x + 10, car.y + 15, 10, 5);
+                break;
+
+            case "left":
+                ctx.fillRect(car.x, car.y + 5, 5, 10);
+                break;
+
+            case "right":
+                ctx.fillRect(car.x + 25, car.y + 5, 5, 10);
+                break;
+        }
+    }
+
+    function drawObstacles() {
+
+        ctx.fillStyle = "red";
+
+        for (let obstacle of obstacles) {
+            ctx.fillRect(
+                obstacle.x,
+                obstacle.y,
+                obstacle.width,
+                obstacle.height
+            );
+        }
+    }
+
+    function drawRewards() {
+
+        ctx.fillStyle = "gold";
+
+        for (let reward of rewards) {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                reward.x,
+                reward.y,
+                reward.size / 2,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fill();
+        }
+    }
+
+    function gameLoop() {
+
+        if (gameOver) {
+            return;
+        }
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        moveCar();
+
+        checkObstacleCollision();
+
+        checkRewardCollision();
+
+        drawRewards();
+
+        drawObstacles();
+
+        drawCar();
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+</script>
+
+</body>
+</html>
