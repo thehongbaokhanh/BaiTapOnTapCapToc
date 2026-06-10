@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    document.write("<h2> Multiplier Table </h2>");
+    document.write("<br>");
+    document.write("<TABLE border='1'>");
+    for (let i = 1; i <= 9; i++) {
+        document.write("<TR>");
+        for (let j = 2; j <= 9; j++) {
+            document.write("<TD>" + j + " * " + i + " = " + i * j + "</TD>");
+        }
+        document.write("</TR>");
+    }
+</script>
+</body>
+</html>
