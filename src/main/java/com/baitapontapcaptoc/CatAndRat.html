@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Mèo và Chuột</title>
+</head>
+<body>
+
+<h2>Mô phỏng Mèo bắt Chuột</h2>
+<div id="result"></div>
+
+<script>
+    function Rat(name, weight, speed, isAlive) {
+        this.name = name;
+        this.weight = weight;
+        this.speed = speed;
+        this.isAlive = isAlive;
+
+        this.speak = function () {
+            return "Chít chít!";
+        };
+    }
+
+    function Cat(name, weight, maxSpeed) {
+        this.name = name;
+        this.weight = weight;
+        this.maxSpeed = maxSpeed;
+
+        this.speak = function () {
+            return "Meo meo!";
+        };
+
+        this.catchRat = function (rat) {
+            if (this.maxSpeed > rat.speed) {
+                return true;
+            }
+            return false;
+        };
+
+        this.eatRat = function (rat) {
+            if (this.catchRat(rat) && rat.isAlive) {
+                rat.isAlive = false;
+                this.weight += rat.weight;
+
+                return this.name + " đã ăn " + rat.name;
+            }
+
+            return this.name + " không thể ăn vì " + rat.name + " đã chết;";
+        };
+    }
+
+    let result = document.getElementById("result");
+
+    let cat = new Cat("Tom", 5, 15);
+
+    let rat1 = new Rat("Jerry", 1, 10, true);
+    let rat2 = new Rat("Speedy", 2, 20, true);
+
+    result.innerHTML += "<p>Mèo " + cat.name + ": " + cat.speak() + "; tốc độ: "+ cat.maxSpeed + "</p>";
+    result.innerHTML += "<p>Chuột " + rat1.name + ": " + rat1.speak() + "; tốc độ: "+ rat1.speed + "</p>";
+    result.innerHTML += "<p>Chuột " + rat2.name + ": " + rat2.speak() + "; tốc độ: "+ rat2.speed + "</p>";
+
+    if (cat.catchRat(rat1)) {
+        result.innerHTML += "<p>" + cat.eatRat(rat1) + "</p>";
+    }else {
+        result.innerHTML += "<p>" + cat.name + " không thể ăn " + rat1.name + " vì chuột chạy nhanh hơn" + "</p>";
+    }
+
+    if (cat.catchRat(rat2)) {
+        result.innerHTML += "<p>" + cat.eatRat(rat2) + "</p>";
+    }else {
+        result.innerHTML += "<p>" + cat.name + " không thể ăn " + rat2.name + " vì chuột chạy nhanh hơn" + "</p>";
+    }
+
+    result.innerHTML += cat.eatRat(rat1);
+
+</script>
+
+</body>
+</html>
