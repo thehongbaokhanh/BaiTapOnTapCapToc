@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>TiVi và Remote</title>
+</head>
+<body>
+
+<h2>Mô phỏng TiVi và Remote</h2>
+
+<div id="result"></div>
+
+<script>
+    function TiVi(channel, volume, status) {
+        this.channel = channel;
+        this.volume = volume;
+        this.status = status;
+
+        this.turnOn = function () {
+            this.status = true;
+            return "TiVi đã được bật.";
+        }
+
+        this.turnOff = function () {
+            this.status = false;
+            return "TiVi đã được tắt.";
+        }
+
+        this.changeChannel = function (channel) {
+            if (this.status) {
+                this.channel = channel;
+                return "TiVi chuyển sang kênh " + this.channel;
+            }
+            return "TiVi đang tắt.";
+        }
+
+        this.changeVolume = function (amount) {
+            if (this.status) {
+                this.volume += amount;
+                return "Âm lượng hiện tại: " + this.volume;
+            }
+            return "TiVi đang tắt.";
+        }
+    }
+
+    function Remote(code) {
+        this.code = code;
+
+        this.changeChannel = function (tivi, channel) {
+            return tivi.changeChannel(channel);
+        }
+
+        this.changeVolume = function (tivi, amount) {
+            return tivi.changeVolume(amount);
+        }
+
+        this.turnOff = function (tivi) {
+            return tivi.turnOff();
+        }
+
+        this.turnOn = function (tivi) {
+            return tivi.turnOn();
+        }
+    }
+
+    let result = document.getElementById("result");
+
+    // Khởi tạo TiVi
+    let tivi = new TiVi(1, 10, false);
+
+    // Khởi tạo Remote
+    let remote = new Remote("RM001");
+
+    // Kịch bản mô phỏng
+    result.innerHTML += "<p>" + tivi.turnOn() + "</p>";
+
+    result.innerHTML += "<p>" + tivi.changeChannel(7) + "</p>";
+
+    result.innerHTML += "<p>" + remote.changeChannel(tivi, 3) + "</p>";
+
+    result.innerHTML += "<p>" + tivi.changeVolume(2) + "</p>";
+
+    result.innerHTML += "<p>" + remote.turnOff(tivi) + "</p>";
+
+    result.innerHTML += "<hr>";
+
+    result.innerHTML += "<p>Trạng thái cuối cùng:</p>";
+    result.innerHTML += "<p>Kênh: " + tivi.channel + "</p>";
+    result.innerHTML += "<p>Âm lượng: " + tivi.volume + "</p>";
+    result.innerHTML += "<p>TiVi: " + (tivi.status ? "Bật" : "Tắt") + "</p>";
+</script>
+
+</body>
+</html>
